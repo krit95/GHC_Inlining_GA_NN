@@ -14,7 +14,7 @@ The GHC was modified for this use by [Celeste Hollenbeck](https://github.com/CAH
 ## Getting started
 ### Requirements
 - [ ] Python 2.7
-- [ ] [Modified GHC] (https://github.com/CAHollenbeck/ghc-inlining-study/tree/project_debug_branch)
+- [ ] [Modified GHC](https://github.com/CAHollenbeck/ghc-inlining-study/tree/project_debug_branch)
 
 ### Running the code
 First, clone or download this repo.
