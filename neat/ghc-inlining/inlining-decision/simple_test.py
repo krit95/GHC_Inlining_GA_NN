@@ -4,10 +4,9 @@ import sys
 import pickle
 import neat
 
-csv_path = "../../../notes/countinlines.csv"
+csv_path = "notes/countinlines.csv"
 
-
-neat_path = "../../"
+neat_path = "neat/"
 sys.path.append(neat_path)
 
 local_dir = os.path.dirname(__file__)
@@ -17,7 +16,7 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                          config_path)
 
 def run_test():
-    with open(csv_path, 'rb') as csvFile:
+    with open(csv_path, 'r') as csvFile:
         data = list(csv.reader(csvFile))
         with open(neat_path + "pklDumps/genome_" + str(101) + ".pkl", 'rb') as nnPklRead:
             current_genome = pickle.load(nnPklRead)
