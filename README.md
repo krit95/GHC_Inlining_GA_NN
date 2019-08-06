@@ -24,7 +24,7 @@ The GHC was modified for this use by [Celeste Hollenbeck](https://github.com/CAH
 For quick testing, the script "simple_test.py" located [here](https://github.com/krit95/GHC_Inlining_GA_NN/tree/master/neat/ghc-inlining/inlining-decision) prints out the output by reading input from [countinlines.csv](https://github.com/krit95/GHC_Inlining_GA_NN/tree/master/notes) and activating the winner network(id: 101) from our tests.
 
 To run from command line, cd to this repo's root folder and run:
-> python ./neat/ghc-inlining/inlining-decision/simple_test.py
+> python neat/ghc-inlining/inlining-decision/simple_test.py
 
 *You don't need the modified GHC for this, as the inputs have already been extracted by us from an actual run into the specified file*
 
@@ -32,4 +32,4 @@ To run from command line, cd to this repo's root folder and run:
 The primary controller of the whole algorithm is in "evolve-feedforward.py" located [here](https://github.com/krit95/GHC_Inlining_GA_NN/tree/master/neat/ghc-inlining/inlining-decision). 
 
 To run from command line, cd to this repo's root folder and run:
-> python ./neat/ghc-inlining/inlining-decision/evolve-feedforward.py
+> python neat/ghc-inlining/inlining-decision/evolve-feedforward.py
