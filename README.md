@@ -18,7 +18,7 @@ The GHC was modified for this use by [Celeste Hollenbeck](https://github.com/CAH
 
 ### Running the code
 - Clone or download this repo
-- Make sure you have added python 2.7 to the system path
+- Make sure you have python 2.7 in the system path
 - Install neat-python using pip
   > pip install neat-python
 
@@ -28,7 +28,7 @@ For quick testing, the script *simple_test.py* located [here](https://github.com
 To run from command line, cd to this repo's root folder and run:
 > python neat/ghc-inlining/inlining-decision/simple_test.py
 
-*You don't need the modified GHC for this, as the inputs have already been extracted by us from an actual run into the specified file*
+*You don't need the modified GHC for this, as the inputs have already been extracted by us from an actual run into the specified file.*
 
 #### Full test
 The primary controller of the whole algorithm is in *evolve-feedforward.py* located [here](https://github.com/krit95/GHC_Inlining_GA_NN/tree/master/neat/ghc-inlining/inlining-decision). 
