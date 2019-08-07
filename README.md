@@ -19,6 +19,8 @@ The GHC was modified for this use by [Celeste Hollenbeck](https://github.com/CAH
 ### Running the code
 - Clone or download this repo
 - Make sure you have added python 2.7 to the system path
+- Install neat-python using pip
+  > pip install neat-python
 
 #### Simple test
 For quick testing, the script "simple_test.py" located [here](https://github.com/krit95/GHC_Inlining_GA_NN/tree/master/neat/ghc-inlining/inlining-decision) prints out the output by reading input from [countinlines.csv](https://github.com/krit95/GHC_Inlining_GA_NN/tree/master/notes) and activating the winner network(id: 101) from our tests.
