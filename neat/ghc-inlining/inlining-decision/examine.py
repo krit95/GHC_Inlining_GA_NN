@@ -84,7 +84,7 @@ def toJSON(pkl):
   rootlink = Link(1, rootnode, None)
 
   # Some ugly reformatting seems necessary
-  return str(rootnode).replace('"','').replace("\\",'').replace("['{","[{").replace("}']","}]")
+  return str(rootnode).replace('"','').replace("\\",'').replace("'{","{").replace("}'","}")
 
 with open(path + "pklDumps/genome_102.pkl", "rb") as nnPklRead: 
   g = pickle.load(nnPklRead)
