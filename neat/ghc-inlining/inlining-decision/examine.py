@@ -18,15 +18,19 @@ class Node(object):
     self.bias        = bias_
     self.links       = links_
 
+  # Expose the dictionaries of the node's links for serialization
+  #def __iter__(self):
+  #  for link in self.links:
+  #    yield link.__dict__
+
 class Link(object):
   def __init__(self, weight_, innode_, outnode_):
     self.weight  = weight_
     self.innode  = innode_
     self.outnode = outnode_
 
+
 def serialize(obj):
-  #serial = obj.isoformat()
-  #return serial
   return obj.__dict__
 
 
@@ -48,28 +52,33 @@ def toJSON(pkl):
     if c.enabled: # Don't bother with dead connections
       #linkname = str(c.key)
       in_node  = c.key[0]*(-1)
-      if in_node > 0: input_nodes.add(in_node)
+      if in_node > 0: input_nodes.add(str(in_node))
       out_node = c.key[1]*(-1)
-      l = Link(c.weight, in_node, out_node)
+      l = Link(str(c.weight), str(in_node), str(out_node))
       links.append(l)
       #links[in_node].weight   = c.weight
       #links[in_node].out_node = c.out_node 
       #print " in_node: " + str(in_node) + "  out_node: " + str(out_node) + "  weight: " + str(c.weight)
+  # print "LINKS: " + str(links)
 
   # Make all of the input nodes
   for innode in input_nodes:
-    nodes[innode] = Node(innode, "identity", "none", "none", True, 0)
+    nodes[innode] = Node(innode, "identity", "none", "none", True, "0")
  
   def get_links(node):
     nid = node.idx
-    if nid in input_nodes: return []
+    if nid in input_nodes:
+      return []
     ls = []
     for l in links:
-      n = l.outnode
+      n = str(l.outnode)
+      #print "outnode: " + str(n)
       if n == nid:
-        n.links = get_links(n)
+        print n + " " + l.innode
+        nodes[n].links = get_links(nodes[l.innode])
         l.outnode = n
         ls.append(l)
+    print ls
     return ls
 
   rootnode = nodes["0"]
