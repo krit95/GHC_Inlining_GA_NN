@@ -14,8 +14,8 @@ class Node(object):
     self.activation  = activation_   # :: String
     self.aggregation = aggregation_  # :: String
     self.response    = response_     # :: String ... Note: When is this used?
-    self.is_input    = is_input_     # :: Bool
-    self.bias        = bias_         # :: Double
+    self.is_input    = is_input_     # :: String
+    self.bias        = bias_         # :: String # Just store most things as strings for the JSON because of formatting
     self.links       = links_        # :: [Link]
 
   def __str__(self):
@@ -44,7 +44,7 @@ def toJSON(pkl):
   # Create hidden nodes
   for k, ng in iteritems(pkl.nodes):
     nodename = str(k*(-1)) # Change node idx's to negative; they're not input nodes
-    newnode = Node(nodename, ng.activation, ng.aggregation, ng.response, False, ng.bias)
+    newnode = Node(nodename, ng.activation, ng.aggregation, str(ng.response), str(False), str(ng.bias))
     nodes[nodename] = newnode
 
   # Collect links
@@ -59,7 +59,7 @@ def toJSON(pkl):
         if str_innode not in nodes:
           input_nodes.append(str_innode)
           # create the input node & add to nodes
-          nodes[str_innode] = Node(str_innode, "identity", "none", "none", True, "0")
+          nodes[str_innode] = Node(str_innode, "identity", "none", "none", str(True), "0")
       out_node = c.key[1]*(-1)
       l = Link(str(c.weight), nodes[str_innode], str(out_node))
       links.append(l)
@@ -84,7 +84,7 @@ def toJSON(pkl):
   rootlink = Link(1, rootnode, None)
 
   # Some ugly reformatting seems necessary
-  return str(rootnode).replace('"','').replace("\\",'').replace("'{","{").replace("}'","}")
+  return str(rootnode).replace('"','').replace("\\",'').replace("'{","{").replace("}'","}").replace("'",'"')
 
 with open(path + "pklDumps/genome_102.pkl", "rb") as nnPklRead: 
   g = pickle.load(nnPklRead)
