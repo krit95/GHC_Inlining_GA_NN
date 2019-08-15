@@ -10,33 +10,35 @@ path = "../../"
 
 class Node(object):
   def __init__(self, idx_, activation_, aggregation_, response_, is_input_, bias_, links_=[]):
-    self.idx         = idx_
-    self.activation  = activation_
-    self.aggregation = aggregation_
-    self.response    = response_   # Note: When is this used?
-    self.is_input    = is_input_
-    self.bias        = bias_
-    self.links       = links_
+    self.idx         = idx_          # :: String
+    self.activation  = activation_   # :: String
+    self.aggregation = aggregation_  # :: String
+    self.response    = response_     # :: String ... Note: When is this used?
+    self.is_input    = is_input_     # :: Bool
+    self.bias        = bias_         # :: Double
+    self.links       = links_        # :: [Link]
 
-  # Expose the dictionaries of the node's links for serialization
-  #def __iter__(self):
-  #  for link in self.links:
-  #    yield link.__dict__
+  def __str__(self):
+    copy = self
+    copy.links = [str(_) for _ in self.links]
+    d = str(copy.__dict__)
+    return d
 
 class Link(object):
   def __init__(self, weight_, innode_, outnode_):
-    self.weight  = weight_
-    self.innode  = innode_
-    self.outnode = outnode_
+    self.weight  = weight_     # :: Double
+    self.innode  = innode_     # :: Node
+    self.outnode = outnode_    # :: String (of an index number)
 
-
-def serialize(obj):
-  return obj.__dict__
-
+  def __str__(self):
+    copy = self
+    copy.innode = str(self.innode)
+    d = str(copy.__dict__)
+    return d
 
 def toJSON(pkl):
   nodes = {}
-  input_nodes = Set([])
+  input_nodes = []
   links = []
 
   # Create hidden nodes
@@ -52,19 +54,16 @@ def toJSON(pkl):
     if c.enabled: # Don't bother with dead connections
       #linkname = str(c.key)
       in_node  = c.key[0]*(-1)
-      if in_node > 0: input_nodes.add(str(in_node))
+      if in_node > 0: # Input nodes have positive indices
+        str_innode = str(in_node)
+        if str_innode not in nodes:
+          input_nodes.append(str_innode)
+          # create the input node & add to nodes
+          nodes[str_innode] = Node(str_innode, "identity", "none", "none", True, "0")
       out_node = c.key[1]*(-1)
-      l = Link(str(c.weight), str(in_node), str(out_node))
+      l = Link(str(c.weight), nodes[str_innode], str(out_node))
       links.append(l)
-      #links[in_node].weight   = c.weight
-      #links[in_node].out_node = c.out_node 
-      #print " in_node: " + str(in_node) + "  out_node: " + str(out_node) + "  weight: " + str(c.weight)
-  # print "LINKS: " + str(links)
 
-  # Make all of the input nodes
-  for innode in input_nodes:
-    nodes[innode] = Node(innode, "identity", "none", "none", True, "0")
- 
   def get_links(node):
     nid = node.idx
     if nid in input_nodes:
@@ -74,18 +73,18 @@ def toJSON(pkl):
       n = str(l.outnode)
       #print "outnode: " + str(n)
       if n == nid:
-        print n + " " + l.innode
-        nodes[n].links = get_links(nodes[l.innode])
-        l.outnode = n
+        #print n + " " + l.innode
+        l.innode.links = get_links(l.innode)
         ls.append(l)
-    print ls
+    #print ls
     return ls
 
   rootnode = nodes["0"]
   rootnode.links = get_links(rootnode)
   rootlink = Link(1, rootnode, None)
 
-  return serialize(rootlink)
+  #return serialize(rootnode)
+  return str(rootnode).replace('"','').replace("\\",'')
 
 with open(path + "pklDumps/genome_102.pkl", "rb") as nnPklRead: 
   g = pickle.load(nnPklRead)
